@@ -4,6 +4,7 @@ var _ = require('underscore');
 var moment = require('moment');
 var redis = require('redis');
 var request = require('request');
+var translate = require('./translate');
 
 var redisClient = redis.createClient();
 
@@ -75,15 +76,15 @@ module.exports = function (gid, callback) {
 
         var lastElement = _.last(kyokuObj);
         var kyokuResult = {
-          endType: lastElement[0],
+          endType: translate(lastElement[0]),
           pointChange: lastElement[1]
         };
 
-        if (kyokuResult.endType === '和了') {
+        if (kyokuResult.endType === translate('和了')) {
           kyokuResult.agariType = lastElement[2][0] === lastElement[2][1] ? 0 : 1; // 0: tsumo, 1: ron
           kyokuResult.winner = lastElement[2][0];
           kyokuResult.victim = lastElement[2][1];
-          kyokuResult.yaku = lastElement[2].slice(4);
+          kyokuResult.yaku = _.map(lastElement[2].slice(4), translate);
 
           var pointRegex = /([\d\-]+)点∀?/;
           var parsedPoint = pointRegex.exec(lastElement[2][3]);
@@ -99,7 +100,7 @@ module.exports = function (gid, callback) {
           }
 
           kyokuResult.point = {
-            str: lastElement[2][3],
+            str: translate(lastElement[2][3]),
             han: lastElement[2][3].substring(0, parsedPoint.index),
             ten: pointTen
           };

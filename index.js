@@ -5,6 +5,7 @@ var analysis = require('./analysis');
 var express = require('express');
 var moment = require('moment');
 var redis = require('redis');
+var translate = require('./translate');
 
 var app = express();
 var redisClient = redis.createClient();
@@ -64,6 +65,11 @@ app.get('/game/:gid', function (req, res) {
       return;
     }
 
+    if (!game) {
+      res.send(500, {error: 'NotFound'});
+      return;
+    }
+
     game = JSON.parse(game);
     game.uploadDatetime = moment(game.uploadDatetime, 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm');
     game.kyokus = _.map(game.kyokus, function (kyoku) {
@@ -78,7 +84,7 @@ app.get('/game/:gid', function (req, res) {
       }
       kyoku.info.oya = game.players[kyoku.info.kyoku - 1];
 
-      if (kyoku.result.endType === '和了') {
+      if (kyoku.result.endType === translate('和了')) {
         kyoku.result.resultStr = '화료: ';
         if (kyoku.result.agariType === 0) {
           kyoku.result.resultStr += '쯔모 (' + game.players[kyoku.result.winner] + ')';
