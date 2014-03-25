@@ -1,10 +1,17 @@
 "use strict";
 
 var analysis = require('./analysis');
+var express = require('express');
 
-analysis('2014032400gm-0009-2331-cb3791c2', function (err, result) {
-  if (err) {
-    return;
-  }
-  console.log(JSON.stringify(result));
+var app = express();
+
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/static'));
+
+app.get('/', function (req, res) {
+  res.render('index', {
+    pageTitle: '마작!'
+  });
 });
+
+app.listen(2331);
