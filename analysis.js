@@ -3,9 +3,9 @@
 var _ = require('underscore');
 var request = require('request');
 
-var getLog = function (logId, callback) {
-  var logUrl = 'http://tenhou.net/5/mjlog2json.cgi?' + logId;
-  var refererUrl = 'http://tenhou.net/5/?log=' + logId;
+var getGameLog = function (gid, callback) {
+  var logUrl = 'http://tenhou.net/5/mjlog2json.cgi?' + gid;
+  var refererUrl = 'http://tenhou.net/5/?log=' + gid;
   request.get({
     url: logUrl,
     headers: {
@@ -17,18 +17,22 @@ var getLog = function (logId, callback) {
       callback(err);
       return;
     }
-    callback(null, JSON.parse(body));
+    try {
+      callback(null, JSON.parse(body));
+    } catch (err) {
+      callback(err);
+    }
   });
 };
 
-module.exports = function (logId, callback) {
-  getLog(logId, function (err, result) {
+module.exports = function (gid, callback) {
+  getGameLog(gid, function (err, result) {
     if (err) {
       callback(err);
       return;
     }
 
-    var game = {id: logId};
+    var game = {id: gid};
 
     game.players = result.name;
 

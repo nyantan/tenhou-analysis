@@ -1,4 +1,11 @@
 extends layout
 
-block body
-  h1 Hello, world!
+block contents
+  p 새로운 게임 등록
+  form#RegisterGameForm
+    input.text.gid(type='text', id='gid', placeholder='천봉 미리보기 아이디 혹은 주소를 입력해주세요')
+    input.button(type='submit' value='등록')
+    div.warning
+
+block scripts
+  script(src='/js/index.js')

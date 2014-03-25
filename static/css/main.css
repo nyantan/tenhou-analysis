@@ -1,0 +1,76 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+html, body {
+  font-family: 'Nanum Gothic', sans-serif;
+  color: #444;
+}
+
+a, a:visited, a:hover {
+  color: #444;
+  text-decoration: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input.text {
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+input.button {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+input.button:hover {
+  background-color: #ddd;
+  transition: linear .1s;
+}
+
+div.container {
+  padding-left: 20px;
+}
+
+h1.title {
+  font-size: 50px;
+}
+
+div.menu {
+  height: 35px;
+}
+
+div.menu span.menu-description {
+  font-size: 17px;
+  margin-right: 5px;
+  display: block;
+  float: left;
+  padding: 5px 10px 5px 0;
+}
+
+div.menu a.menu-item {
+  display: block;
+  float: left;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+}
+
+div.menu a.menu-item:hover {
+  background-color: #ddd;
+  transition: linear .1s;
+}
+
+#RegisterGameForm input.gid {
+  width: 400px;
+  margin-right: 2px;
+}
+
+#RegisterGameForm div.warning {
+  color: #FF4136;
+}
