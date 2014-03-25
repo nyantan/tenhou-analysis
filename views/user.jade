@@ -1,0 +1,54 @@
+extends layout
+
+block stylesheets
+  link(rel='stylesheet', href='/css/user.css')
+
+block contents
+  script.
+    var data = JSON.parse('!{data}');
+
+  table.user-table
+    thead
+      tr
+        th.nick
+          | 유저명
+          span.order
+        th.rankRate
+          | 순율
+          span.order
+        th.pointRate
+          | 승점률
+          span.order
+        th.rank1Rate
+          | 1위율
+          span.order
+        th.rank2Rate
+          | 2위율
+          span.order
+        th.rank3Rate
+          | 3위율
+          span.order
+        th.rank4Rate
+          | 4위율
+          span.order
+        th.horaRate
+          | 화료율
+          span.order
+        th.shotRate
+          | 방총률
+          span.order
+    tbody#UserTableBody
+  script#UserRowTemplate(type='text/x-handlebars-template')
+    tr
+      td.nick {{nick}}
+      td.rankRate {{rankRate}}
+      td.pointRate {{pointRate}}
+      td.rank1Rate {{rank1Rate}}
+      td.rank2Rate {{rank2Rate}}
+      td.rank3Rate {{rank3Rate}}
+      td.rank4Rate {{rank4Rate}}
+      td.horaRate {{horaRate}}
+      td.shotRate {{shotRate}}
+
+block scripts
+  script(src='/js/user.js')

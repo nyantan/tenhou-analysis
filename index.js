@@ -2,6 +2,7 @@
 
 var _ = require('underscore');
 var analysis = require('./analysis');
+var async = require('async');
 var express = require('express');
 var moment = require('moment');
 var redis = require('redis');
@@ -119,6 +120,72 @@ app.put('/game', function (req, res) {
     } else {
       res.json(result);
     }
+  });
+});
+
+app.get('/user', function (req, res) {
+  redisClient.keys('count|game|*', function (err, replies) {
+    if (err) {
+      res.send(500, {error: err});
+      return;
+    }
+
+    var players = _.map(replies, function (reply) { return reply.split('|')[2]; });
+
+    var playerStats = [];
+    var getPlayerStat = function (players, index, callback) {
+      var player = players[index];
+      if (!player) {
+        callback();
+      } else {
+        async.parallel({
+          game: function (callback) { redisClient.get('count|game|' + player, callback); },
+          rank1: function (callback) { redisClient.get('count|rank1|' + player, callback); },
+          rank2: function (callback) { redisClient.get('count|rank2|' + player, callback); },
+          rank3: function (callback) { redisClient.get('count|rank3|' + player, callback); },
+          rank4: function (callback) { redisClient.get('count|rank4|' + player, callback); },
+          point: function (callback) { redisClient.get('count|point|' + player, callback); },
+          hora: function (callback) { redisClient.get('count|hora|' + player, callback); },
+          kyoku: function (callback) { redisClient.get('count|kyoku|' + player, callback); },
+          shot: function (callback) { redisClient.get('count|shot|' + player, callback); }
+        },
+        function (err, stat) {
+          if (err) {
+            res.send(500, {error: err});
+            return;
+          }
+
+          _.each(stat, function (val, index) {
+            if (!val) {
+              stat[index] = 0;
+            } else {
+              stat[index] = parseInt(val, 10);
+            }
+          });
+
+          stat.rankRate = +((stat.rank1 + 2 * stat.rank2 + 3 * stat.rank3 + 4 * stat.rank4) / stat.game).toFixed(2);
+          stat.pointRate = +(stat.point / stat.game).toFixed(2);
+          stat.rank1Rate = +(stat.rank1 / stat.game).toFixed(2);
+          stat.rank2Rate = +(stat.rank2 / stat.game).toFixed(2);
+          stat.rank3Rate = +(stat.rank3 / stat.game).toFixed(2);
+          stat.rank4Rate = +(stat.rank4 / stat.game).toFixed(2);
+          stat.horaRate = +(stat.hora / stat.kyoku).toFixed(2);
+          stat.shotRate = +(stat.shot / stat.kyoku).toFixed(2);
+
+          stat.nick = player;
+
+          playerStats.push(stat);
+          getPlayerStat(players, index + 1, callback);
+        });
+      }
+    };
+
+    getPlayerStat(players, 0, function () {
+      res.render('user', {
+        pageTitle: '마작! - 유저',
+        data: JSON.stringify(playerStats)
+      });
+    });
   });
 });
 

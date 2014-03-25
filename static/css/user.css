@@ -1,0 +1,30 @@
+table.user-table {
+  width: 800px;
+  margin-top: 15px;
+}
+
+table.user-table th, table.user-table td {
+  text-align: center;
+}
+
+table.user-table th {
+  font-size: 20px;
+  padding: 7px 0;
+  border-radius: 5px;
+}
+
+table.user-table th:hover {
+  transition: linear .1;
+  cursor: pointer;
+  background-color: #eee;
+}
+
+table.user-table td.nick {
+  font-weight: bold;
+}
+
+table.user-table td {
+  padding: 6px 0;
+  font-size: 17px;
+  border-bottom: 1px solid #ddd;
+}
