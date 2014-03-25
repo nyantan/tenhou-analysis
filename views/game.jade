@@ -1,0 +1,56 @@
+extends layout
+
+block stylesheets
+  link(rel='stylesheet', href='/css/game.css')
+
+block contents
+  div.title
+    span.gid #{game.id}
+    | 게임의 상세 기록
+    div.upload-datetime #{game.uploadDatetime} 에 업로드 됨.
+
+  div.total-result
+    div.total-result-title 최종 결과
+    div.players
+      each player in game.players
+        div.nick #{player}
+    div.results
+      each result in game.result
+        if result.buttobi
+          div.result.buttobi
+            div.point #{result.point}
+            div.rank #{result.rank}위
+        else
+          div.result
+            div.point #{result.point}
+            div.rank #{result.rank}위
+
+  div.kyokus
+    div.subtitle 국 진행
+    each kyoku in game.kyokus
+      div.kyoku
+        div.kyoku-title
+          span.ba #{kyoku.info.baStr}
+          span.kyoku #{kyoku.info.kyoku}
+          | 국
+          if kyoku.info.bonba > 0
+            span.bonba #{kyoku.info.bonba}
+            | 본장
+          span(style='margin-left: 7px;') 오야:
+          span.oya #{kyoku.info.oya}
+
+        div.kyoku-result
+          div.end-type #{kyoku.result.resultStr}
+          if kyoku.result.yaku
+            div.yakus
+              each yaku in kyoku.result.yaku
+                span.yaku #{yaku}
+            div.point #{kyoku.result.point.str}
+          if kyoku.result.pointChange
+            table.point-change
+              tr
+                each player in game.players
+                  td #{player}
+              tr
+                each pointChange in kyoku.result.pointChange
+                  td #{pointChange}

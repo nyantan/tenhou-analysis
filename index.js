@@ -51,6 +51,54 @@ app.get('/game', function (req, res) {
   });
 });
 
+app.get('/game/:gid', function (req, res) {
+  var gid = req.params.gid;
+  if (!gid) {
+    res.send(500, {error: "NoGid"});
+    return;
+  }
+
+  redisClient.get('game|' + gid, function (err, game) {
+    if (err) {
+      res.send(500, {error: err});
+      return;
+    }
+
+    game = JSON.parse(game);
+    game.uploadDatetime = moment(game.uploadDatetime, 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm');
+    game.kyokus = _.map(game.kyokus, function (kyoku) {
+      if (kyoku.info.ba === 0) {
+        kyoku.info.baStr = '東';
+      } else if (kyoku.info.ba === 1) {
+        kyoku.info.baStr = '南';
+      } else if (kyoku.info.ba === 2) {
+        kyoku.info.baStr = '西';
+      } else if (kyoku.info.ba === 3) {
+        kyoku.info.baStr = '北';
+      }
+      kyoku.info.oya = game.players[kyoku.info.kyoku - 1];
+
+      if (kyoku.result.endType === '和了') {
+        kyoku.result.resultStr = '화료: ';
+        if (kyoku.result.agariType === 0) {
+          kyoku.result.resultStr += '쯔모 (' + game.players[kyoku.result.winner] + ')';
+        } else {
+          kyoku.result.resultStr += '론 (' + game.players[kyoku.result.winner] + ' -> ' + game.players[kyoku.result.victim] + ')';
+        }
+      } else {
+        kyoku.result.resultStr = '유국';
+      }
+
+      return kyoku;
+    });
+
+    res.render('game', {
+      pageTitle: '마작! - ' + gid,
+      game: game
+    });
+  });
+});
+
 app.put('/game', function (req, res) {
   var gid = req.body.gid;
   var gidRegex = /^\w{10}gm-\w+-\w+-\w{8}$/;
