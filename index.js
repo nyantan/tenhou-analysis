@@ -3,6 +3,7 @@
 var _ = require('underscore');
 var analysis = require('./analysis');
 var express = require('express');
+var moment = require('moment');
 var redis = require('redis');
 
 var app = express();
@@ -39,9 +40,13 @@ app.get('/game', function (req, res) {
       }).reverse();
 
       res.json(_.map(games, function (game) {
-        // FIXME
-        return game;
-      });
+        var simpleResult = {};
+        simpleResult.id = game.id;
+        simpleResult.players = game.players;
+        simpleResult.result = game.result;
+        simpleResult.uploadDatetime = moment(game.uploadDatetime, 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm');
+        return simpleResult;
+      }));
     });
   });
 });

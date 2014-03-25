@@ -1,5 +1,19 @@
 (function ($) {
 $(function () {
+  var reloadGameList = function () {
+    $.ajax('/game', {
+      type: 'GET',
+      dataType: 'json',
+      success: function (result) {
+        var gameTemplate = Handlebars.compile($("#GameTemplate").html());
+        $("#GameList").empty();
+        $.each(result, function (index, game) {
+          $("#GameList").append($(gameTemplate(game)));
+        });
+      }
+    });
+  };
+
   $('#RegisterGameForm').submit(function (e) {
     var gid = $('#RegisterGameForm input.text.gid').val();
 
@@ -21,7 +35,7 @@ $(function () {
       dataType: 'json',
       success: function (result) {
         if (result.success) {
-          location.reload();
+          reloadGameList();
         }
       },
       error: function (err) {
@@ -38,5 +52,7 @@ $(function () {
 
     e.preventDefault();
   });
+
+  reloadGameList();
 });
 }(jQuery));
