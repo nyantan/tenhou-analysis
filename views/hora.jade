@@ -1,0 +1,101 @@
+extends layout
+
+block stylesheets
+  link(rel='stylesheet', href='/css/hora.css')
+
+block contents
+  div.hora-rank
+    div.title
+      | 드래곤 로드
+      span.subtitle 혹시 마츠미 쿠로세요...?
+    div.description 화료마다 도라를 사용한 비율입니다.
+    div.players
+      for player, index in horaRanks.dora
+        div.player
+          div.rank #{index + 1}
+          div.nick(class='rank#{index + 1}') #{player.nick}
+          div.rate
+            | #{player.doraRate}
+            span.unit 개
+
+  div.hora-rank
+    div.title
+      | 역패왕
+      span.subtitle 역패만이 패 본연의 강함이다.
+    div.description 화료마다 역패를 사용한 비율입니다.
+    div.players
+      for player, index in horaRanks.yakuhai
+        div.player
+          div.rank #{index + 1}
+          div.nick(class='rank#{index + 1}') #{player.nick}
+          div.rate
+            | #{player.yakuhaiRate}
+            span.unit 개
+
+  div.hora-rank
+    div.title
+      | 역만 한 번만 좀 해보자
+      span.subtitle 그런 오컬트는 없어요.
+    div.description 총 역만 횟수입니다.
+    div.players
+      for player, index in horaRanks.yakuman
+        div.player
+          div.rank #{index + 1}
+          div.nick(class='rank#{index + 1}') #{player.nick}
+          div.rate
+            | #{player.yakuman}
+            span.unit 회
+
+  div.hora-rank
+    div.title
+      | 평화주의자
+      span.subtitle 고급 마작의 기본은 핑후에서부터.
+    div.description 화료 시 핑후로 화료하는 비율입니다.
+    div.players
+      for player, index in horaRanks.pinfu
+        div.player
+          div.rank #{index + 1}
+          div.nick(class='rank#{index + 1}') #{player.nick}
+          div.rate
+            | #{player.pinfuRate}
+
+  div.hora-rank
+    div.title
+      | 리치킹
+      span.subtitle 리치를 참을 수가 없다.
+    div.description 화료 시 리치를 걸고 화료하는 비율입니다.
+    div.players
+      for player, index in horaRanks.rich
+        div.player
+          div.rank #{index + 1}
+          div.nick(class='rank#{index + 1}') #{player.nick}
+          div.rate
+            | #{player.richRate}
+
+  div.hora-rank
+    div.title
+      | 토리프루
+      span.subtitle 산쥰 사키야...!
+    div.description 리치 화료 시 일발로 화료하는 비율입니다.
+    div.players
+      for player, index in horaRanks.itpatsu
+        div.player
+          div.rank #{index + 1}
+          div.nick(class='rank#{index + 1}') #{player.nick}
+          div.rate
+            | #{player.itpatsuRate}
+
+  div.hora-rank
+    div.title
+      | 똥야오
+      span.subtitle 이젠 탕야오 뿐이야
+    div.description 화료 시 탕야오로 화료하는 비율입니다.
+    div.players
+      for player, index in horaRanks.tanyao
+        div.player
+          div.rank #{index + 1}
+          div.nick(class='rank#{index + 1}') #{player.nick}
+          div.rate
+            | #{player.tanyaoRate}
+
+  div.dummy(style='margin-bottom: 25px;')

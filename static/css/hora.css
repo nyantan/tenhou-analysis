@@ -1,0 +1,75 @@
+div.hora-rank {
+  margin-top: 25px;
+}
+
+div.hora-rank div.title {
+  font-size: 45px;
+}
+
+div.hora-rank div.title span.subtitle {
+  font-size: 17px;
+  color: #777;
+  margin-left: 5px;
+}
+
+div.hora-rank div.description {
+  font-size: 20px;
+}
+
+div.hora-rank div.players {
+  margin-top: 5px;
+  height: 80px;
+}
+
+div.hora-rank div.players div.player {
+  background-color: #444;
+  width: 200px;
+  height: 80px;
+  float: left;
+  margin-right: 5px;
+  border-radius: 5px;
+  color: white;
+}
+
+div.hora-rank div.players div.player div.rank {
+  float: left;
+  height: 80px;
+  width: 50px;
+  line-height: 80px;
+  text-align: center;
+  font-size: 75px;
+}
+
+div.hora-rank div.players div.player div.nick {
+  margin-left: 50px;
+  height: 40px;
+  font-size: 35px;
+  line-height: 40px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+div.hora-rank div.players div.player div.nick.rank1 {
+  color: #ffd700;
+}
+
+div.hora-rank div.players div.player div.nick.rank2 {
+  color: #c0c0c0;
+}
+
+div.hora-rank div.players div.player div.nick.rank3 {
+  color: #b87333;
+}
+
+div.hora-rank div.players div.player div.rate {
+  margin-left: 50px;
+  height: 40px;
+  font-size: 35px;
+  line-height: 40px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+div.hora-rank div.players div.player div.rate span.unit {
+  font-size: 17px;
+}

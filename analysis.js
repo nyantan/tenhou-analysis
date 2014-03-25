@@ -118,7 +118,7 @@ module.exports = function (gid, callback) {
 
           redisClient.incr('count|hora|' + game.players[kyokuResult.winner]);
           _.each(kyokuResult.yaku, function (yaku) {
-            redisClient.incr('count|hora|' + game.players[kyokuResult.winner] + '|' + yaku.split('(')[0].trim());
+            redisClient.incr('count|hora|' + game.players[kyokuResult.winner] + '|' + yaku);
           });
 
           if (kyokuResult.agariType === 1) {
