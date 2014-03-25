@@ -79,7 +79,7 @@ module.exports = function (gid, callback) {
           pointChange: lastElement[1]
         };
 
-        if (kyokuResult === '和了') {
+        if (kyokuResult.endType === '和了') {
           kyokuResult.agariType = lastElement[2][0] === lastElement[2][1] ? 0 : 1; // 0: tsumo, 1: ron
           kyokuResult.winner = lastElement[2][0];
           kyokuResult.victim = lastElement[2][1];
