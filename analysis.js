@@ -66,8 +66,19 @@ module.exports = function (gid, callback) {
         });
       });
 
+      _.each(game.result, function (result, index) {
+        var player = game.players[index];
+        redisClient.incr('count|game|' + player);
+        redisClient.incr('count|rank' + result.rank + '|' + player);
+        redisClient.incrby('count|point|' + player, result.point);
+      });
+
       game.kyokus = [];
       _.each(result.log, function (kyokuObj) {
+        _.each(game.players, function (player) {
+          redisClient.incr('count|kyoku|' + player);
+        });
+
         var kyokuInfo = {
           ba: ~~(kyokuObj[0][0] / 4), // 0: ton, 1: nan
           kyoku: kyokuObj[0][0] % 4 + 1,
@@ -104,6 +115,15 @@ module.exports = function (gid, callback) {
             han: lastElement[2][3].substring(0, parsedPoint.index),
             ten: pointTen
           };
+
+          redisClient.incr('count|hora|' + game.players[kyokuResult.winner]);
+          _.each(kyokuResult.yaku, function (yaku) {
+            redisClient.incr('count|hora|' + game.players[kyokuResult.winner] + '|' + yaku.split('(')[0].trim());
+          });
+
+          if (kyokuResult.agariType === 1) {
+            redisClient.incr('count|shot|' + game.players[kyokuResult.victim]);
+          }
         }
 
         game.kyokus.push({
