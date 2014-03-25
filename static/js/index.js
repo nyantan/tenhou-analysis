@@ -34,9 +34,7 @@ $(function () {
       data: {gid: gid},
       dataType: 'json',
       success: function (result) {
-        if (result.success) {
-          reloadGameList();
-        }
+        reloadGameList();
       },
       error: function (err) {
         var errorStr;
