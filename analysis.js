@@ -61,7 +61,7 @@ module.exports = function (gid, callback) {
       _.each(points, function (point, index) {
         game.result.push({
           point: point,
-          rank: points.concat().sort().reverse().indexOf(point) + 1,
+          rank: _.sortBy(points, function (point) { return -point; }).indexOf(point) + 1,
           buttobi: point < 0
         });
       });
